@@ -127,13 +127,13 @@ def main(args):
     criterion = nn.BCELoss()
 
     # Find the latest checkpoint in the 'checkpoints' folder
-    checkpoint_files = sorted(glob.glob("checkpoint/cgan_checkpoint_*.path", key=os.path.getmtime)
+    checkpoint_files = sorted(glob.glob("checkpoint/cgan_checkpoint_*.path", key=os.path.getmtime))
     start_epoch = 0
 
     if checkpoint_files:
-        lates_checkpoint = checkpoint_files[-1]
+        latest_checkpoint = checkpoint_files[-1]
         print(f"Loading checkpoint from {latest_checkpoint}...")
-        checkpoint = torch.load(checkpoint_path)
+        checkpoint = torch.load(latest_checkpoint)
         generator.load_state_dict(checkpoint['generator_state_dict'])
         discriminator.load_state_dict(checkpoint['discriminator_state_dict'])
         optimizer_G.load_state_dict(checkpoint['optimizer_G_state_dict'])
