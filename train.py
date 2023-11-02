@@ -49,7 +49,7 @@ def train(generator, discriminator, criterion, optimizer_G, scheduler_G, optimiz
             d_loss.backward()
             optimizer_D.step()
             
-            print(f"[Epoch {epoch}/{epochs}] [Batch {i}/{len(dataloader)}] [D loss: {d_loss.item()}] [G loss: {g_loss.item()}]")
+            print(f"[Epoch {epoch}/{epochs}] [Batch {i}/{len(dataloader)}] [D loss: {d_loss.item():.4f}] [G loss: {g_loss.item():.4f}]")
 
         # Validation loop
         with torch.no_grad():
@@ -77,7 +77,7 @@ def train(generator, discriminator, criterion, optimizer_G, scheduler_G, optimiz
             
             avg_val_g_loss = sum(val_g_losses) / len(val_g_losses)
             avg_val_d_loss = sum(val_d_losses) / len(val_d_losses)
-            print(f"Epoch {epoch}/{epochs} - Generator Val Loss: {avg_val_g_loss}, Discriminator Val Loss: {avg_val_d_loss}")
+            print(f"Epoch {epoch}/{epochs} - Generator Val Loss: {avg_val_g_loss:.4f}, Discriminator Val Loss: {avg_val_d_loss:.4f}")
 
         # Early stopping
         combined_val_loss = (avg_val_g_loss + avg_val_d_loss) / 2
@@ -127,7 +127,7 @@ def main(args):
     criterion = nn.BCELoss()
 
     # Find the latest checkpoint in the 'checkpoints' folder
-    checkpoint_files = sorted(glob.glob("checkpoint/cgan_checkpoint_*.path", key=os.path.getmtime))
+    checkpoint_files = sorted(glob.glob("checkpoint/cgan_checkpoint_*.path"), key=os.path.getmtime)
     start_epoch = 0
 
     if checkpoint_files:
